@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="res/favicon.ico">
+
+    <script src="../engine/vec2.js"></script>
+    <script src="../engine/utils.js"></script>
+    <script src="../engine/world2d.js"></script>
+    <script src="../engine/camera2d.js"></script>
+    <script src="../engine/keycodes.js"></script>
+    <script src="../engine/input_manager.js"></script>
+    <script src="../engine/sprite.js"></script>
+    <script src="../engine/game_object.js"></script>
+    <script src="../engine/renderer_2d.js"></script>
+    <script src="../engine/dynamic_texture.js"></script>
+    <script src="../engine/collider.js"></script>
+    <script src="../engine/game_engine_2d.js"></script>
+    <script src="../engine/collider_aabb.js"></script>
+
+    <title>Flappy Bird</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script src="scripts/bird.js"></script>
+    <script src="scripts/base_object.js"></script>
+    <script src="scripts/ceiling.js"></script>
+    <script src="scripts/pipe.js"></script>
+    <script src="scripts/pipe_spawner.js"></script>
+    <script src="scripts/score_texture.js"></script>
+    <script src="scripts/index.js"></script>
+
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            height: 100vh;
+            background-color: black;
+        }
+
+        #canvas {
+            margin: auto;
+        }
+    </style>
+</body>
+</html>
