@@ -68,7 +68,6 @@ class GameObject {
 
     updatePhysics(deltaTime = 1) {
         if (this.mass == 0) return;
-        console.log(deltaTime);
     
         const acceleration = this.velocity.divVal(this.mass);
       

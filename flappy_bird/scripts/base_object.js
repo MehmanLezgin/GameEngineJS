@@ -9,7 +9,7 @@ class BaseObject extends GameObject {
 
     onUpdate() {
         const bottomY = this.context.renderer.toWorldCoord(new vec2(0, this.context.renderer._screenSizeVec.y)).y - this.scale.y/2+0.1        
-        this.offsetX -= this.offsetSpeed
+        this.offsetX -= this.offsetSpeed * this.context.deltaTime
 
         if (this.offsetX <= -0.5)
             this.offsetX = 0
