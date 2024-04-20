@@ -3,43 +3,43 @@ const birdColor = 'red'
 const sprites = {
     bird: new AnimatedSprite({
         textures: [
-            Sprite.loadTexture(`res/sprites/${birdColor}bird-upflap.png`),
-            Sprite.loadTexture(`res/sprites/${birdColor}bird-midflap.png`),
-            Sprite.loadTexture(`res/sprites/${birdColor}bird-downflap.png`),
+            new ImageTexture(`res/sprites/${birdColor}bird-upflap.png`),
+            new ImageTexture(`res/sprites/${birdColor}bird-midflap.png`),
+            new ImageTexture(`res/sprites/${birdColor}bird-downflap.png`),
         ],
         aspect: 0.1,
         scale: 1.0,
         frameSpeed: 0.1,
     }),
     base: new RectSprite({
-        texture: Sprite.loadTexture('res/sprites/base.png'),
+        texture: new ImageTexture('res/sprites/base.png'),
         scale: 1.0,
     }),
     bg_day: new RectSprite({
-        texture: Sprite.loadTexture('res/sprites/background-day.png'),
+        texture: new ImageTexture('res/sprites/background-day.png'),
     }),
     bg_night: new RectSprite({
-        texture: Sprite.loadTexture('res/sprites/background-night.png'),
+        texture: new ImageTexture('res/sprites/background-night.png'),
     }),
     gameover: new RectSprite({
-        texture: Sprite.loadTexture('res/sprites/gameover.png'),
+        texture: new ImageTexture('res/sprites/gameover.png'),
         scale: 0.7
     }),
     pipe_top_green: new RectSprite({
-        texture: Sprite.loadTexture('res/sprites/pipe-green.png'),
+        texture: new ImageTexture('res/sprites/pipe-green.png'),
         scale: new vec2(1, -1)
     }),
     pipe_bottom_green: new RectSprite({
-        texture: Sprite.loadTexture('res/sprites/pipe-green.png'),
+        texture: new ImageTexture('res/sprites/pipe-green.png'),
         scale: new vec2(1, 1)
     }),
 
     pipe_top_red: new RectSprite({
-        texture: Sprite.loadTexture('res/sprites/pipe-red.png'),
+        texture: new ImageTexture('res/sprites/pipe-red.png'),
         scale: new vec2(1, -1)
     }),
     pipe_bottom_red: new RectSprite({
-        texture: Sprite.loadTexture('res/sprites/pipe-red.png'),
+        texture: new ImageTexture('res/sprites/pipe-red.png'),
         scale: new vec2(1, 1)
     }),
     score_sprite: new RectSprite({
@@ -47,12 +47,12 @@ const sprites = {
         renderMode: Sprite.RENDER_MODE.TEXTURE,
         lineWidth: 0.005,
         strokeColor: '#000',
-        scale: vec2.ofval(0.55)
+        scale: vec2.ofval(0.65)
     })
 }
 
 const scoreTexture = new ScoreTexture(500, 100, 'res/sprites')
-sprites.score_sprite.texture = scoreTexture.render()
+sprites.score_sprite.texture = scoreTexture
 sprites.score_sprite.fitAspectToTexture()
 
 const sounds = {
@@ -72,7 +72,7 @@ class FBRenderer extends Renderer2D {
 
     renderScore(score) {
         scoreTexture.setScore(score)
-        sprites.score_sprite.texture = scoreTexture.render()
+        // sprites.score_sprite.texture = scoreTexture
 
         this.renderSprite(sprites.score_sprite, {
             pos: new vec2(0,-0.75)

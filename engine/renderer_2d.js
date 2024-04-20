@@ -206,7 +206,12 @@ class Renderer2D {
     }
 
     renderSprite(sprite, properties) {
-        if (!properties.pos || !sprite.isTexLoaded()) return
+        // if (sprite instanceof AnimatedSprite)
+        // if (sprite.getTexture())
+        // console.log(sprite.getTexture().isLoaded());
+        // if (!sprite.getTexture())
+        // debugger
+        if (!properties.pos || !sprite.getTexture().isLoaded()) return
 
         if (sprite instanceof RectSprite)
             this.renderRectSprite(sprite, properties)
@@ -230,14 +235,18 @@ class Renderer2D {
 
         // if (sprite.aspect < 1.0)
             scale.y *= sprite.aspect
+
         // else
         //     scale.y /= sprite.aspect
         
-        if (!pos) debugger
         const pos2 =        transformRequired ? this.toScrCoord(pos) : pos
-        const w =           transformRequired ? scale.x * this.camera.zoom * this._winScale : scale.x
-        const h =           transformRequired ? scale.y * this.camera.zoom * this._winScale : scale.y
+        const w =           ~~(transformRequired ? scale.x * this.camera.zoom * this._winScale : scale.x)
+        const h =           ~~(transformRequired ? scale.y * this.camera.zoom * this._winScale : scale.y)
         const lineWidth =   transformRequired ? sprite.lineWidth * this.camera.zoom * this._winScale : sprite.lineWidth
+
+        if (texture instanceof DynamicCanvasTexture) {
+            texture.onResize(w, h)
+        }
 
         if (texture) {
             this.ctx.save()
@@ -246,7 +255,7 @@ class Renderer2D {
             this.drawRectCenter(new vec2(), w, h)
             this.ctx.globalAlpha = sprite.alpha
             this.ctx.scale(Math.sign(w), Math.sign(h))
-            this.ctx.drawImage(texture, -w / 2, -h / 2, w, h)
+            this.ctx.drawImage(texture.getImage(), -w / 2, -h / 2, w, h)
             this.ctx.restore()
             this.ctx.globalCompositeOperation = sprite.colorBlendingMode
             this.applyStyle(fillStyle, strokeStyle, lineWidth)
@@ -277,6 +286,9 @@ class Renderer2D {
         const w =           (transformRequired ? scale.x * this.camera.zoom * this._winScale : scale.x) / 2
         const h =           (transformRequired ? scale.y * this.camera.zoom * this._winScale : scale.y) / 2
         const lineWidth =   transformRequired ? sprite.lineWidth * this.camera.zoom * this._winScale : lineWidth
+
+        if (texture instanceof DynamicCanvasTexture)
+            texture.onResize(w, h)
 
         if (texture) {
             this.ctx.save()
@@ -346,7 +358,7 @@ class Renderer2D {
             this.ctx.translate(center.x, center.y);
 
             this.ctx.globalAlpha = sprite.alpha
-            this.ctx.drawImage(texture, -w / 2, -h / 2, w, h);
+            this.ctx.drawImage(texture.getImage(), -w / 2, -h / 2, w, h);
 
             this.ctx.restore();
 
@@ -369,9 +381,12 @@ class Renderer2D {
         scale.y *= sprite.aspect
 
         const pos2 =        transformRequired ? this.toScrCoord(pos) : pos;
-        const w =           transformRequired ? scale.x * this.camera.zoom * this._winScale : scale.x
-        const h =           transformRequired ? scale.y * this.camera.zoom * this._winScale : scale.y
+        const w =           ~~(transformRequired ? scale.x * this.camera.zoom * this._winScale : scale.x)
+        const h =           ~~(transformRequired ? scale.y * this.camera.zoom * this._winScale : scale.y)
         const lineWidth =   transformRequired ? sprite.lineWidth * this.camera.zoom * this._winScale : sprite.lineWidth
+
+        if (texture instanceof DynamicCanvasTexture)
+            texture.onResize(w, h)
 
         if (texture) {
             const p = sprite.framesCoords[~~sprite.currectFrame]
@@ -383,7 +398,7 @@ class Renderer2D {
                 this.ctx.rotate(rotation)
                 this.drawRectCenter(new vec2(), w, h);
                 this.ctx.globalAlpha = sprite.alpha
-                this.ctx.drawImage(texture, p.x, p.y, sprite.frameSize.x, sprite.frameSize.y, -w / 2, -h / 2, w, h);
+                this.ctx.drawImage(texture.getImage(), p.x, p.y, sprite.frameSize.x, sprite.frameSize.y, -w / 2, -h / 2, w, h);
                 this.ctx.restore();
                 this.ctx.globalCompositeOperation = sprite.colorBlendingMode;
                 this.applyStyle(fillStyle, strokeStyle);
@@ -409,10 +424,13 @@ class Renderer2D {
         scale.y *= sprite.aspect
         
         const pos2 =        transformRequired ? this.toScrCoord(pos) : pos;
-        const w =           transformRequired ? scale.x * this.camera.zoom * this._winScale : scale.x
-        const h =           transformRequired ? scale.y * this.camera.zoom * this._winScale : scale.y
+        const w =           ~~(transformRequired ? scale.x * this.camera.zoom * this._winScale : scale.x)
+        const h =           ~~(transformRequired ? scale.y * this.camera.zoom * this._winScale : scale.y)
         const lineWidth =   transformRequired ? sprite.lineWidth * this.camera.zoom * this._winScale : sprite.lineWidth
 
+        if (texture instanceof DynamicCanvasTexture)
+            texture.onResize(w, h)
+        
         if (texture) {
             this.ctx.beginPath()
             this.ctx.save();
@@ -420,7 +438,7 @@ class Renderer2D {
             this.ctx.rotate(rotation)
             this.drawRectCenter(new vec2(), w, h);
             this.ctx.globalAlpha = sprite.alpha
-            this.ctx.drawImage(texture, -w / 2, -h / 2, w, h);
+            this.ctx.drawImage(texture.getImage(), -w / 2, -h / 2, w, h);
             this.ctx.restore();
             this.ctx.globalCompositeOperation = sprite.colorBlendingMode;
             this.applyStyle(fillStyle, strokeStyle);

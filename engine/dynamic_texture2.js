@@ -1,4 +1,4 @@
-class DynamicTexture extends Renderer2D {
+class DynamicTexture2 extends Renderer2D {
     constructor(width = 128, height = 128) {
         const canvas = document.createElement('canvas')
         canvas.width = width

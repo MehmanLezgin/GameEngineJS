@@ -51,26 +51,31 @@ class Sprite {
     }
 
     fitAspectToTexture() {
-        const calcScale = () => {
-            this.aspect = this.texture.height / this.texture.width
-        //     const max = Math.max(this.texture.width, this.texture.height)
-        //     this.scale = new vec2(this.texture.width / max, this.texture.height / max)
+        const calcAspect = () => {
+            this.aspect = this.texture.getHeight() / this.texture.getWidth()
         }
 
-        if (this.isTexLoaded()) {
-            calcScale()
-        } else this.texture.addEventListener('load', calcScale)
+        // if (this.texture instanceof DynamicCanvasTexture)
+        this.texture?.setOnUpdateListener(calcAspect)
+
+        if (this.texture?.isLoaded()) {
+            calcAspect()
+        }
+        // else this.texture.addEventListener('load', calcAspect)
     }
 
     setTexture(texture) {
-        this.texture = texture ? typeof texture == 'string' ? this.loadImage(texture) : texture : null;
+        if (texture && typeof texture != 'string' && !(texture instanceof Texture))
+            throw "texture must be an instance of Texture class"
+
+        this.texture = texture ? typeof texture == 'string' ? new ImageTexture(texture) : texture : null
     }
 
-    static loadTexture(path) {
-        const img = new Image
-        img.src = path
-        return img
-    }
+    // static loadTexture(path) {
+    //     const img = new Image
+    //     img.src = path
+    //     return img
+    // }
 
     isStroked() {
         return this.strokeColor && (
@@ -103,7 +108,7 @@ class Sprite {
         return this.texture
     }
 
-    isTexLoaded() {
+    isLoaded() {
         const texture = this.getTexture();
         if (!texture) return false;
     
@@ -316,7 +321,7 @@ class AnimatedSprite2 extends Sprite {
         }
 
         
-        if (this.isTexLoaded()) init();
+        if (this.isLoaded()) init();
         else texture.addEventListener('load', init);
     }
 
