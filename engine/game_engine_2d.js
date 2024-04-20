@@ -21,13 +21,13 @@ class GameEngine2D {
             this.deltaTime = 0
             this._prevRenderTime = time
         } else {
-            this.deltaTime = Math.min(1/60, (time - this._prevRenderTime) / 1000)// / (1000/60)
+            this.deltaTime = Math.min(1/120, (time - this._prevRenderTime) / 1000)// / (1000/60)
             this._prevRenderTime = time
         }
 
         // debug
-        if (this.deltaTime && Date.now() % 10 == 0) 
-            this.score = 1 / this.deltaTime;
+        // if (this.deltaTime && Date.now() % 10 == 0) 
+        //     this.score = 1 / this.deltaTime;
     }
 
     __runGameLoop() {
